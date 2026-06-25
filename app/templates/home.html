@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}{{ site_name }} — accueil{% endblock %}
+{% block body %}
+<section class="hero">
+  <div class="hero-text">
+    <h1>{{ site_name }}.<br>Vintage &amp; curated.</h1>
+    <p>Catalogue local de publicités, brochures, visuels, scans et vidéos. Dérivatifs basse définition servis depuis ce volume ; masters originaux protégés sur le disque externe.</p>
+  </div>
+  <div class="hero-shapes" aria-hidden="true">
+    <svg viewBox="0 0 320 240">
+      <rect x="0" y="0" width="320" height="240" fill="#f5eee0"/>
+      <circle cx="90" cy="120" r="72" fill="#e87d2e"/>
+      <polygon points="180,40 300,40 300,160 180,160" fill="#1a2b45"/>
+      <polygon points="180,160 300,160 240,220" fill="#3a7d7d"/>
+      <rect x="30" y="180" width="120" height="10" fill="#1a2b45"/>
+    </svg>
+  </div>
+</section>
+
+<section class="stat-row">
+  <div class="stat"><span class="n">{{ stats.total }}</span><span class="l">items</span></div>
+  <div class="stat"><span class="n">{{ stats.photos }}</span><span class="l">photos / scans</span></div>
+  <div class="stat"><span class="n">{{ stats.hardware }}</span><span class="l">hardware</span></div>
+  <div class="stat"><span class="n">{{ stats.videos }}</span><span class="l">vidéos</span></div>
+</section>
+
+{% if years %}
+<section class="timeline">
+  <h2>Frise chronologique</h2>
+  <div class="bars">
+    {% set maxn = years | map(attribute='n') | max %}
+    {% for y in years %}
+      <a class="bar" href="{{ url_for('items') }}?year={{ y.y }}" title="{{ y.y }} — {{ y.n }} items">
+        <span class="fill" style="height: {{ (y.n / maxn * 100) | round(1) }}%"></span>
+        <span class="yr">{{ y.y }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section>
+  <h2>Ajouts récents</h2>
+  <ul class="grid">
+  {% for r in recent %}
+    <li>
+      <a href="{{ url_for('item', slug=r.slug) }}">
+        {% if r.file_path_thumb %}
+          <img loading="lazy" src="{{ archive_rel(r.file_path_thumb) }}" alt="">
+        {% else %}
+          <span class="noimg">—</span>
+        {% endif %}
+        <span class="cap">{{ r.title }}{% if r.year %} · {{ r.year }}{% endif %}</span>
+      </a>
+    </li>
+  {% endfor %}
+  </ul>
+</section>
+{% endblock %}

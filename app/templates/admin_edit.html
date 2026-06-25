@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Éditer {{ it.id }} — {{ site_name }}{% endblock %}
+{% block body %}
+<section class="admin">
+  <h1>Éditer <code>{{ it.id }}</code></h1>
+  <form method="post" class="edit">
+    <label>Titre <input name="title" value="{{ it.title or '' }}"></label>
+    <label>Description <textarea name="description" rows="4">{{ it.description or '' }}</textarea></label>
+    <div class="row">
+      <label>Type <input name="item_type" value="{{ it.item_type or '' }}" list="types"></label>
+      <label>Produit <input name="product" value="{{ it.product or '' }}"></label>
+      <label>Campagne <input name="campaign" value="{{ it.campaign or '' }}"></label>
+      <label>Année <input type="number" name="year" value="{{ it.year or '' }}"></label>
+    </div>
+    <div class="row">
+      <label>Langue <input name="language" value="{{ it.language or '' }}" maxlength="8"></label>
+      <label>Pays <input name="country" value="{{ it.country or '' }}" maxlength="4"></label>
+      <label>Format physique <input name="physical_format" value="{{ it.physical_format or '' }}"></label>
+    </div>
+    <div class="row">
+      <label>Droits
+        <select name="rights_status">
+          {% for v in ['unknown','likely_copyrighted','public_domain','licensed','permission_granted','private_only','remove_on_request'] %}
+            <option value="{{ v }}" {% if it.rights_status==v %}selected{% endif %}>{{ v }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Publication
+        <select name="publication_level">
+          {% for v in ['private','semi_public','public'] %}
+            <option value="{{ v }}" {% if it.publication_level==v %}selected{% endif %}>{{ v }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    </div>
+    <label>Notes internes <textarea name="notes_internal" rows="3">{{ it.notes_internal or '' }}</textarea></label>
+
+    <datalist id="types">
+      {% for t in ['ad','brochure','visual','scan','video','press','photo','other'] %}
+        <option value="{{ t }}">
+      {% endfor %}
+    </datalist>
+    <div class="actions">
+      <button type="submit" class="primary">Enregistrer</button>
+      <a class="ghost" href="{{ url_for('item', slug=it.slug) }}">Voir la fiche</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

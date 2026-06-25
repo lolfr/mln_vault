@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Recherche — {{ site_name }}{% endblock %}
+{% block body %}
+<section>
+  <form method="get" class="big-search">
+    <input type="search" name="q" value="{{ q }}" placeholder="Titre, description, produit, campagne…" autofocus>
+    <button type="submit">Rechercher</button>
+  </form>
+
+  {% if q %}
+    <p class="count">{{ rows | length }} résultats pour « {{ q }} »</p>
+    <ul class="results">
+      {% for r in rows %}
+        <li>
+          <a href="{{ url_for('item', slug=r.slug) }}">
+            {% if r.file_path_thumb %}<img src="{{ archive_rel(r.file_path_thumb) }}" alt="">{% endif %}
+            <div>
+              <span class="t">{{ r.title }}</span>
+              <span class="s">{{ r.snip | safe }}</span>
+              <span class="y">{% if r.year %}{{ r.year }}{% elif r.circa_start %}~{{ r.circa_start }}s{% endif %}</span>
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</section>
+{% endblock %}

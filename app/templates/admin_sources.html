@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Sources — Admin{% endblock %}
+{% block body %}
+<section class="admin">
+  <h1>Sources (200 dernières)</h1>
+  <table class="audit">
+    <thead><tr><th>Item</th><th>Kind</th><th>Référence</th><th>Acquis</th><th>Notes</th></tr></thead>
+    <tbody>
+    {% for r in rows %}
+      <tr>
+        <td><a href="{{ url_for('item', slug=r.slug) }}">{{ r.title }}</a></td>
+        <td>{{ r.kind }}</td>
+        <td><code class="small">{{ r.reference or '—' }}</code></td>
+        <td>{{ r.acquired_at or '—' }}</td>
+        <td>{{ r.notes or '' }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

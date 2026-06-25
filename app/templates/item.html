@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ it.title }} — {{ site_name }}{% endblock %}
+{% block body %}
+<article class="item">
+  <div class="media">
+    {% if it.file_path_preview %}
+      <img src="{{ archive_rel(it.file_path_preview) }}" alt="{{ it.title }}">
+    {% elif it.file_path_thumb %}
+      <img src="{{ archive_rel(it.file_path_thumb) }}" alt="{{ it.title }}">
+    {% else %}
+      <div class="noimg big">—</div>
+    {% endif %}
+  </div>
+
+  <aside class="info">
+    <h1>{{ it.title }}</h1>
+    {% if it.description %}<p>{{ it.description }}</p>{% endif %}
+
+    <dl class="kv">
+      <dt>ID</dt><dd><code>{{ it.id }}</code></dd>
+      <dt>Type</dt><dd>{{ it.item_type }}</dd>
+      {% if it.product %}<dt>Produit</dt><dd>{{ it.product }}</dd>{% endif %}
+      {% if it.campaign %}<dt>Campagne</dt><dd>{{ it.campaign }}</dd>{% endif %}
+      {% if it.year %}<dt>Année</dt><dd>{{ it.year }}</dd>
+      {% elif it.circa_start %}<dt>Décennie</dt><dd>{{ it.circa_start }}–{{ it.circa_end }}</dd>{% endif %}
+      {% if it.language %}<dt>Langue</dt><dd>{{ it.language }}</dd>{% endif %}
+      {% if it.country %}<dt>Pays</dt><dd>{{ it.country }}</dd>{% endif %}
+      <dt>Format</dt><dd>{{ it.digital_format }}{% if it.width_px %} · {{ it.width_px }}×{{ it.height_px }}{% endif %}{% if it.duration_seconds %} · {{ it.duration_seconds | dur }}{% endif %}</dd>
+      <dt>Taille master</dt><dd>{{ it.file_size_bytes | human_size }}</dd>
+      <dt>Droits</dt><dd class="rights r-{{ it.rights_status }}">{{ it.rights_status }}</dd>
+      <dt>Publication</dt><dd class="pub p-{{ it.publication_level }}">{{ it.publication_level }}</dd>
+      <dt>Checksum</dt><dd><code class="small">{{ it.checksum_sha256[:16] }}…</code></dd>
+    </dl>
+
+    {% if tags %}
+    <div class="tags">
+      {% for t in tags %}<a href="{{ url_for('tag', slug=t.slug) }}">{{ t.label }}</a>{% endfor %}
+    </div>
+    {% endif %}
+
+    {% if sources %}
+    <details><summary>Sources / provenance</summary>
+      <ul class="sources">
+        {% for s in sources %}
+          <li><strong>{{ s.kind }}</strong>{% if s.reference %} — {{ s.reference }}{% endif %}{% if s.notes %} <em>{{ s.notes }}</em>{% endif %}</li>
+        {% endfor %}
+      </ul>
+    </details>
+    {% endif %}
+
+    <div class="actions">
+      <button class="primary" data-open-master="{{ it.id }}">Révéler le master dans le Finder</button>
+      <a class="ghost" href="{{ url_for('admin_edit', item_id=it.id) }}">Éditer (admin)</a>
+    </div>
+  </aside>
+</article>
+{% endblock %}

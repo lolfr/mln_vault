@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Échecs &amp; lacunes d'enrichissement</h1>
+{% macro bucket(title, rows) %}
+<details open>
+  <summary>{{ title }} <span class="badge">{{ rows|length }}</span></summary>
+  <ul>
+    {% for it in rows %}
+    <li><a href="/item/{{ it.slug }}">{{ it.id }}</a> · {{ it.item_type }}
+        {% if it.year %}· {{ it.year }}{% endif %} — {{ it.title or '—' }}</li>
+    {% endfor %}
+  </ul>
+</details>
+{% endmacro %}
+{{ bucket("Sans preview (inexploitables par le VLM)", no_preview) }}
+{{ bucket("Vision échouée (preview mais pas d'enrichissement)", vision_failed) }}
+{{ bucket("Vidéos non transcrites", untranscribed) }}
+{% endblock %}

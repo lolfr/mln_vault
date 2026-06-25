@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Tags — {{ site_name }}{% endblock %}
+{% block body %}
+<h1>Tags</h1>
+<div id="tag-cloud" data-words='{{ cloud|tojson }}'></div>
+<input id="tag-search" type="search" placeholder="Rechercher un tag…" autocomplete="off">
+<div id="tag-categories">
+  {% for category, tags in by_category %}
+  <details class="tag-category">
+    <summary>{{ category }} <span class="badge">{{ tags|length }}</span></summary>
+    <ul>
+      {% for t in tags %}
+      <li class="tag-item" data-label="{{ t.label|lower }}">
+        <a class="tag-link" href="/tags/{{ t.slug }}">{{ t.label }}</a>
+        <span class="count">{{ t.n }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </details>
+  {% endfor %}
+</div>
+<script src="/static/vendor/wordcloud2.js"></script>
+<script>window.__initTags && window.__initTags();</script>
+{% endblock %}

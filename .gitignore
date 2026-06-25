@@ -1,0 +1,62 @@
+# === Vault archive — ne versionner que le code + la structure + les docs ===
+
+# Médias & données lourdes (JAMAIS commités)
+/masters/
+/derivatives/
+/metadata/
+/exports/
+
+# Bases / dumps / catalog
+*.sqlite
+*.sqlite-*
+*.db
+*.MALFORMED_*
+
+# venvs & environnements
+**/venv/
+**/.venv/
+**/.venv-tags/
+**/env/
+
+# caches Python
+**/__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# artefacts générés
+**/data/manifest.json
+**/data/dedupe_report.csv
+**/data/enrichments.csv
+**/data/enrich_review.html
+
+# backups (créés pendant les chantiers)
+*.bak
+*.bak-*
+*.bak-tags-*
+*.bak-dedupe-*
+*.bak-repoint*
+
+# macOS / système
+.DS_Store
+.fseventsd/
+.Spotlight-V100/
+.Trashes/
+.DocumentRevisions-V100*
+.TemporaryItems/
+
+# secrets éventuels
+*.env
+.env
+tls/*.key
+
+# runtime
+/logs/
+nohup.out
+.keepalive
+
+# config privée (ne jamais committer)
+vault.toml
+
+# ancien historique local privé (ne pas committer)
+.git-prev-private/

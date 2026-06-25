@@ -1,0 +1,61 @@
+# Copy this file to vault.toml and adapt it to your collection.
+# All paths must be absolute. See docs/SETUP.md for details.
+
+# ---------------------------------------------------------------------------
+# [site] — catalog web interface
+# ---------------------------------------------------------------------------
+[site]
+# Title shown in the browser tab and site header.
+name = "Media Vault"
+
+# ---------------------------------------------------------------------------
+# [collection] — collection-level metadata
+# ---------------------------------------------------------------------------
+[collection]
+# Free-text description injected into AI enrichment prompts so the LLM
+# understands what the archive contains.
+description = "a personal media archive"
+
+# ---------------------------------------------------------------------------
+# [ingest] — ingest pipeline settings
+# ---------------------------------------------------------------------------
+[ingest]
+# Human-readable label recorded in the `sources` table for this import run.
+source_label = "media"
+
+# Absolute path to the root directory of the source to ingest.
+# The ingester walks this tree, classifying files by the top-level folder
+# name against [ingest.sections] below.
+source_root = "/path/to/your/source"
+
+# ---------------------------------------------------------------------------
+# [ingest.sections] — folder-to-section mapping
+# ---------------------------------------------------------------------------
+# Each key is a top-level folder name inside source_root.
+# section  : free-text section name stored in the catalog.
+# item_type: one of  scan | visual | video | press | photo | other
+[ingest.sections]
+"Photos"   = { section = "photo",    item_type = "photo"  }
+"Scans"    = { section = "scans",    item_type = "scan"   }
+"Videos"   = { section = "video",    item_type = "video"  }
+"Press"    = { section = "press",    item_type = "press"  }
+"Misc"     = { section = "misc",     item_type = "other"  }
+
+# ---------------------------------------------------------------------------
+# [tags] — tag taxonomy used by the AI categorizer
+# ---------------------------------------------------------------------------
+[tags]
+# Ordered list of tag categories.  The local LLM assigns each tag to one of
+# these buckets.  Keep "Other" last as the catch-all.
+categories = [
+  "Products",
+  "People",
+  "Places & Landscapes",
+  "Colors",
+  "Interface & Software",
+  "Concepts & Themes",
+  "Objects & Gear",
+  "Events & Marketing",
+  "Animals",
+  "Other",
+]

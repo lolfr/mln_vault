@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Exports — Admin{% endblock %}
+{% block body %}
+<section class="admin">
+  <h1>Exports publics</h1>
+  <form method="post"><button type="submit" class="primary">Régénérer le catalogue public</button></form>
+  <ul class="filelist">
+    {% for f in files %}
+      <li><code>{{ f.name }}</code> — {{ f.stat().st_size }} octets</li>
+    {% else %}
+      <li><em>aucun export encore</em></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

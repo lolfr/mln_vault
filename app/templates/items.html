@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Items — {{ site_name }}{% endblock %}
+{% block body %}
+<section>
+  <div class="toolbar">
+    <form method="get" class="filters">
+      <label>Type
+        <select name="type" onchange="this.form.submit()">
+          <option value="">—</option>
+          {% for t in types %}
+            <option value="{{ t }}" {% if t==item_type %}selected{% endif %}>{{ t }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Produit
+        <select name="product" onchange="this.form.submit()">
+          <option value="">—</option>
+          {% for p in products %}
+            <option value="{{ p }}" {% if p==product %}selected{% endif %}>{{ p }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Année <input type="number" name="year" value="{{ year }}" min="1970" max="2030" placeholder="1984"></label>
+      <label>Tri
+        <select name="sort" onchange="this.form.submit()">
+          <option value="year_desc" {% if sort=='year_desc' %}selected{% endif %}>Année ↓</option>
+          <option value="year_asc" {% if sort=='year_asc' %}selected{% endif %}>Année ↑</option>
+          <option value="title" {% if sort=='title' %}selected{% endif %}>Titre</option>
+          <option value="recent" {% if sort=='recent' %}selected{% endif %}>Récents</option>
+        </select>
+      </label>
+      <button type="submit">Filtrer</button>
+      <a class="clear" href="{{ url_for('items') }}">Effacer</a>
+    </form>
+    <div class="count">{{ total }} résultats</div>
+  </div>
+
+  <ul class="grid">
+    {% for r in rows %}
+      <li>
+        <a href="{{ url_for('item', slug=r.slug) }}">
+          {% if r.file_path_thumb %}
+            <img loading="lazy" src="{{ archive_rel(r.file_path_thumb) }}" alt="">
+          {% else %}<span class="noimg">—</span>{% endif %}
+          <span class="cap">{{ r.title }}</span>
+          <span class="meta">
+            {{ r.item_type }}{% if r.product %} · {{ r.product }}{% endif %}
+            {% if r.year %} · {{ r.year }}{% elif r.circa_start %} · ~{{ r.circa_start }}s{% endif %}
+          </span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% if pages > 1 %}
+  <nav class="pager">
+    {% if page > 1 %}<a href="{{ qs(page=page-1) }}">← précédent</a>{% endif %}
+    <span>{{ page }} / {{ pages }}</span>
+    {% if page < pages %}<a href="{{ qs(page=page+1) }}">suivant →</a>{% endif %}
+  </nav>
+  {% endif %}
+</section>
+{% endblock %}

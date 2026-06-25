@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Admin — {{ site_name }}{% endblock %}
+{% block body %}
+<section class="admin">
+  <h1>Admin</h1>
+  <div class="cols">
+    <div>
+      <h2>Par type</h2>
+      <ul class="bars-horiz">
+      {% for r in by_type %}<li><span>{{ r.item_type }}</span><b>{{ r.n }}</b></li>{% endfor %}
+      </ul>
+    </div>
+    <div>
+      <h2>Publication</h2>
+      <ul class="bars-horiz">
+      {% for r in by_pub %}<li><span>{{ r.publication_level }}</span><b>{{ r.n }}</b></li>{% endfor %}
+      </ul>
+    </div>
+    <div>
+      <h2>Droits</h2>
+      <ul class="bars-horiz">
+      {% for r in by_rights %}<li><span>{{ r.rights_status }}</span><b>{{ r.n }}</b></li>{% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <h2>Audit récent</h2>
+  <table class="audit">
+    <thead><tr><th>Date</th><th>Item</th><th>Action</th><th>Acteur</th></tr></thead>
+    <tbody>
+    {% for a in last_audit %}
+      <tr><td>{{ a.created_at }}</td><td><code>{{ a.item_id or '—' }}</code></td><td>{{ a.action }}</td><td>{{ a.actor }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <p class="shortcuts">
+    <a href="{{ url_for('admin_sources') }}">Sources</a> ·
+    <a href="{{ url_for('admin_exports') }}">Exports</a> ·
+    <a href="/items">Catalogue</a>
+  </p>
+</section>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ tag.label }} — {{ site_name }}{% endblock %}
+{% block body %}
+<section>
+  <h1>{{ tag.label }}</h1>
+  <ul class="grid">
+    {% for r in rows %}
+      <li><a href="{{ url_for('item', slug=r.slug) }}">
+        {% if r.file_path_thumb %}<img loading="lazy" src="{{ archive_rel(r.file_path_thumb) }}" alt="">{% else %}<span class="noimg">—</span>{% endif %}
+        <span class="cap">{{ r.title }}</span>
+      </a></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

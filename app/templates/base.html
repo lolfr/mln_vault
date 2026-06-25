@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}{{ site_name }}{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='26' fill='%23e87d2e'/><rect x='20' y='26' width='24' height='12' fill='%231a2b45'/></svg>">
+</head>
+<body>
+<header class="masthead">
+  <a href="{{ url_for('home') }}" class="wordmark">
+    <svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+      <circle cx="24" cy="24" r="20" fill="#e87d2e"/>
+      <path d="M32 16 q-4 0 -8 4 q-4 -4 -8 -4 q-6 0 -6 10 q0 10 14 14 q14 -4 14 -14 q0 -10 -6 -10z" fill="#1a2b45"/>
+      <circle cx="30" cy="10" r="3" fill="#3a7d7d"/>
+    </svg>
+    <span>{{ site_name }}</span>
+  </a>
+  <nav>
+    <a href="{{ url_for('items') }}">Items</a>
+    <a href="{{ url_for('tags_index') }}">Tags</a>
+    <a href="{{ url_for('failures') }}">Échecs</a>
+    <a href="{{ url_for('search') }}">Recherche</a>
+    <a href="{{ url_for('admin') }}" class="admin-link">Admin</a>
+  </nav>
+  <form action="{{ url_for('search') }}" class="search">
+    <input type="search" name="q" placeholder="Rechercher…" value="{{ request.args.get('q','') }}">
+  </form>
+</header>
+
+{% with flashes = get_flashed_messages() %}{% if flashes %}
+<div class="flash">{% for f in flashes %}<span>{{ f }}</span>{% endfor %}</div>
+{% endif %}{% endwith %}
+
+<main>{% block body %}{% endblock %}</main>
+
+<footer>
+  <span>{{ site_name }} — catalogue privé</span>
+  <span>Archive : <code>/Volumes/Vault/archive</code></span>
+</footer>
+
+<script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</body>
+</html>
