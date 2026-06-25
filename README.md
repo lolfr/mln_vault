@@ -8,6 +8,9 @@ no per-call API budget, fully configurable via `vault.toml`.
 > generated derivatives, the SQLite catalog and any secrets are **not**
 > included (see [`.gitignore`](.gitignore)).
 
+
+![Media Vault — tag page: word cloud, live search, collapsible categories](docs/tags-page.png)
+
 ---
 
 ## Features

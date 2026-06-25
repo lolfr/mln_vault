@@ -29,7 +29,7 @@
       <dt>Taille master</dt><dd>{{ it.file_size_bytes | human_size }}</dd>
       <dt>Droits</dt><dd class="rights r-{{ it.rights_status }}">{{ it.rights_status }}</dd>
       <dt>Publication</dt><dd class="pub p-{{ it.publication_level }}">{{ it.publication_level }}</dd>
-      <dt>Checksum</dt><dd><code class="small">{{ it.checksum_sha256[:16] }}…</code></dd>
+      <dt>Checksum</dt><dd><code class="small">{{ (it.checksum_sha256 or "")[:16] }}…</code></dd>
     </dl>
 
     {% if tags %}

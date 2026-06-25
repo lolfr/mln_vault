@@ -46,3 +46,6 @@ window.__initTags = function () {
     el.style.display = q ? 'none' : '';
   });
 };
+
+// init au chargement (app.js est defer : DOM parsé + wordcloud2.js déjà chargé)
+window.__initTags && window.__initTags();
